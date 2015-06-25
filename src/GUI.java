@@ -72,6 +72,7 @@ public class GUI extends JFrame
 
 	private class ButtonClickListener implements ActionListener
 	{
+		product accessPRODUCT = new product();
 		public void actionPerformed(ActionEvent AE)
 		{
 			String command = AE.getActionCommand();
@@ -79,7 +80,7 @@ public class GUI extends JFrame
 			{
 				case "ADD": 
 					headerLABEL.setText("Please Enter the new product below");
-					product accessPRODUCT = new product();
+					
 					//
 					name = JOptionPane.showInputDialog(mainFrame,"Please enter the name of product",null);
 					stock = Integer.parseInt(JOptionPane.showInputDialog(mainFrame, "Please enter the quantity of stock for this product", null));
@@ -87,13 +88,19 @@ public class GUI extends JFrame
 					System.out.println(name + " " + stock + " " + cost);
 					accessPRODUCT.Communicate(name,stock,cost);		
 					headerLABEL.setText("New Record Added to System");
-
-
+					break;
+					
+				case "Submit" :
+					headerLABEL.setText("Report Generated");
+					accessPRODUCT.Read();
+					accessPRODUCT.Report();
 				break;
-				case "Submit" : headerLABEL.setText("Submitted");
-				break;
-				case "Cancel" : headerLABEL.setText("Cancelled");
-				break;
+				
+				case "Cancel" :
+					headerLABEL.setText("All products currently in system");
+					//name = JOptionPane.showMessageDialog(mainFrame,);
+					accessPRODUCT.Read();
+					break;
 			}
 		}
 	}
