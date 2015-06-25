@@ -1,13 +1,15 @@
 import java.sql.DriverManager;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
-
+import java.io.DataOutputStream;
 
 public class product 
 {
@@ -96,14 +98,9 @@ public void Report()
 	
 	try
 	{
-		File StockReport = new File("C:/Users/Jake/report.txt");
-		
-		if(!StockReport.exists())
-		{
-			StockReport.createNewFile();
-		}
-		FileWriter RW = new FileWriter(StockReport.getAbsoluteFile());
-		BufferedWriter BW = new BufferedWriter(RW);
+		File reportOUT = new File("C:/Users/Jake/report.txt");
+		PrintWriter OUTPUT = new PrintWriter(reportOUT, "UTF-8");
+		OUTPUT.println("Product List ");
 		for(int i = 0; i < RECORDS; ++i)
 		{
 			try
@@ -114,12 +111,11 @@ public void Report()
 			 stock = data.getInt("Stock_Quantity");
 			 cost = data.getFloat("Cost");
 			 
-			 Convert = (int)cost;
-	
-			 //ADD multiple fields top file
-			 //BW.write(name, stock, Convert);
-			 BW.write(name);
 			 
+			OUTPUT.print("ID: "); OUTPUT.print(ID); OUTPUT.print(" ");
+			OUTPUT.print("Product Name: "); OUTPUT.print(name); OUTPUT.print(" ");
+			OUTPUT.print("Stock Quantity "); OUTPUT.print(stock); OUTPUT.print(" ");
+			OUTPUT.print("Product Cost "); OUTPUT.print(cost); OUTPUT.println(" ");
 			}
 			catch(Exception e)
 			{
@@ -127,7 +123,11 @@ public void Report()
 			}
 		}
 		System.out.print("File created");
-		BW.close();
+		//BW.close();
+		//DOS.flush();
+		//DOS.close();
+		OUTPUT.close();
+		RECORDS = 0;
 	}
 	catch(IOException e)
 	{
