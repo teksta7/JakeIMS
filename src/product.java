@@ -8,6 +8,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 import java.io.DataOutputStream;
 
@@ -81,7 +84,6 @@ public void Read()
 
 public void Report()
 {
-	int Convert;
 	try
 	{
 		 CONN = DriverManager.getConnection(DB_URL,username,password);
@@ -98,9 +100,11 @@ public void Report()
 	
 	try
 	{
+		DateFormat Dformat = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
+		Date DATE = new Date();
 		File reportOUT = new File("C:/Users/Jake/report.txt");
 		PrintWriter OUTPUT = new PrintWriter(reportOUT, "UTF-8");
-		OUTPUT.println("Product List ");
+		OUTPUT.println("Product list created on " + Dformat.format(DATE));
 		for(int i = 0; i < RECORDS; ++i)
 		{
 			try
@@ -135,4 +139,25 @@ public void Report()
 	}
 }
 
+public void Update(int lCHOICE, int lSTOCK)
+{
+	try
+	{
+	 System.out.println("Preparing to update");
+	 CONN = DriverManager.getConnection(DB_URL,username,password);
+	 update = CONN.createStatement();
+	 System.out.println("Connection established");
+	 String updateSQL = "UPDATE product SET Stock_Quantity = " + lSTOCK + " WHERE ID = " + lCHOICE; 
+	 update.executeUpdate(updateSQL);
+	 System.out.println("Changes Saved");
+	 //data.close();
+	 CONN.close();
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
 }
+
+}
+

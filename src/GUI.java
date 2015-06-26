@@ -16,6 +16,7 @@ public class GUI extends JFrame
 	private JPanel ControlPanel;
 	String name;
 	int stock;
+	int choice;
 	float cost;
 
 
@@ -56,12 +57,16 @@ public class GUI extends JFrame
 		JButton ADDbutton = new JButton("Add new record");
 		JButton Submitbutton = new JButton("Create Report");
 		JButton Cancelbutton = new JButton("List all products");
+		JButton Updatebutton = new JButton("Update Stock levels");
+		Updatebutton.setActionCommand("Update");
 		ADDbutton.setActionCommand("ADD");
 		Submitbutton.setActionCommand("Submit");
-		Cancelbutton.setActionCommand("Cancel");
+		Cancelbutton.setActionCommand("List");
+		Updatebutton.addActionListener(new ButtonClickListener());
 		ADDbutton.addActionListener(new ButtonClickListener());
 		Submitbutton.addActionListener(new ButtonClickListener());
 		Cancelbutton.addActionListener(new ButtonClickListener());
+		ControlPanel.add(Updatebutton);
 		ControlPanel.add(ADDbutton);
 		ControlPanel.add(Submitbutton);
 		ControlPanel.add(Cancelbutton);
@@ -96,11 +101,17 @@ public class GUI extends JFrame
 					accessPRODUCT.Report();
 				break;
 				
-				case "Cancel" :
+				case "List" :
 					headerLABEL.setText("All products currently in system");
 					//name = JOptionPane.showMessageDialog(mainFrame,);
 					accessPRODUCT.Read();
 					break;
+					
+				case "Update" :
+					headerLABEL.setText("Updating Record");
+					choice = Integer.parseInt(JOptionPane.showInputDialog(mainFrame,"Please enter the ID of the product you want to edit stock levels with",null));
+					stock = Integer.parseInt(JOptionPane.showInputDialog(mainFrame,"Please enter the new stock level for this product",null));
+					accessPRODUCT.Update(choice,stock);
 			}
 		}
 	}
