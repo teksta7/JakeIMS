@@ -1,4 +1,7 @@
 import java.sql.DriverManager;
+
+import javax.swing.Timer;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.Scanner;
 import java.io.DataOutputStream;
 
@@ -127,9 +132,6 @@ public void Report()
 			}
 		}
 		System.out.print("File created");
-		//BW.close();
-		//DOS.flush();
-		//DOS.close();
 		OUTPUT.close();
 		RECORDS = 0;
 	}
@@ -159,5 +161,52 @@ public void Update(int lCHOICE, int lSTOCK)
 	}
 }
 
+public void simulate()
+{
+	try
+	{
+		ArrayList localstorageSTOCK = new ArrayList();
+		ArrayList localstorageNAME = new ArrayList();
+		Random GEN = new Random();
+		int currentstock;
+		//System.out.println(localstorage.size());
+		System.out.println("Preparing to Simulate Stock, Please wait...");
+		CONN = DriverManager.getConnection(DB_URL,username,password);
+		update = CONN.createStatement();
+		System.out.println("Connection established");
+		String selectSQL = "Select Product_Name,Stock_Quantity FROM Product"; 
+		data = update.executeQuery(selectSQL);
+		 while (data.next())
+		 {
+			 name = data.getString("Product_Name");
+			 stock = data.getInt("Stock_Quantity");
+			 //int adjustVALUE = GEN.nextInt(21);
+			 localstorageSTOCK.add(stock);
+			 localstorageNAME.add(name);
+			// ++RECORDS;
+			// System.out.println("Product Name:" + name + " Stock Quantity " + stock);
+		 }
+		 System.out.println("Stock levels at the beginning of the day");
+		 System.out.println(localstorageNAME);
+		 System.out.println(localstorageSTOCK);
+		 for(int i = 0; i < localstorageSTOCK.size(); ++i)
+		 {
+			 int adjustVALUE = GEN.nextInt(21);
+			 currentstock = (Integer)localstorageSTOCK.get(i);
+			 currentstock = currentstock - adjustVALUE;
+			 localstorageSTOCK.set(i, currentstock);
+		 }
+		 System.out.println("Estimated Stock levels at the end of the day");
+		 System.out.println(localstorageNAME);
+		 System.out.println(localstorageSTOCK);
+		 data.close();
+		 CONN.close();
+		
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+}
 }
 

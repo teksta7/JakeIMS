@@ -18,8 +18,7 @@ public class GUI extends JFrame
 	int stock;
 	int choice;
 	float cost;
-
-
+	Timer TIMER;
 	
 	public GUI()
 	{
@@ -58,14 +57,18 @@ public class GUI extends JFrame
 		JButton Submitbutton = new JButton("Create Report");
 		JButton Cancelbutton = new JButton("List all products");
 		JButton Updatebutton = new JButton("Update Stock levels");
+		JButton Simbutton = new JButton("Simulate Stock levels");
+		Simbutton.setActionCommand("Sim");
 		Updatebutton.setActionCommand("Update");
 		ADDbutton.setActionCommand("ADD");
 		Submitbutton.setActionCommand("Submit");
 		Cancelbutton.setActionCommand("List");
+		Simbutton.addActionListener(new ButtonClickListener());
 		Updatebutton.addActionListener(new ButtonClickListener());
 		ADDbutton.addActionListener(new ButtonClickListener());
 		Submitbutton.addActionListener(new ButtonClickListener());
 		Cancelbutton.addActionListener(new ButtonClickListener());
+		ControlPanel.add(Simbutton);
 		ControlPanel.add(Updatebutton);
 		ControlPanel.add(ADDbutton);
 		ControlPanel.add(Submitbutton);
@@ -112,6 +115,15 @@ public class GUI extends JFrame
 					choice = Integer.parseInt(JOptionPane.showInputDialog(mainFrame,"Please enter the ID of the product you want to edit stock levels with",null));
 					stock = Integer.parseInt(JOptionPane.showInputDialog(mainFrame,"Please enter the new stock level for this product",null));
 					accessPRODUCT.Update(choice,stock);
+					break;
+					
+				case "Sim" :
+					//TIMER = new Timer(100,this);
+					//TIMER.setInitialDelay(2000);
+					//TIMER.start();
+					accessPRODUCT.simulate();
+					break;
+					
 			}
 		}
 	}
