@@ -183,7 +183,7 @@ public void Stock_Check(int itemNUM, String itemNAME )
 
 public void Delivery()
 {
-	String file;
+	//File localREPORT = new File("C:\Users\jathompson\Report.txt");
 	//FileInputStream FIS = new FileInputStream(file);
 
 }
