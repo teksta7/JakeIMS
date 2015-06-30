@@ -4,6 +4,7 @@ import javax.swing.Timer;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -77,6 +78,7 @@ public void Read()
 			 cost = data.getFloat("Cost");
 			 ++RECORDS;
 			 System.out.println("ID:" + ID + " Product Name:" + name + " Stock Quantity " + stock + " Cost " + cost);
+			 Stock_Check(stock,name);
 		 }
 		 data.close();
 		 CONN.close();
@@ -161,6 +163,31 @@ public void Update(int lCHOICE, int lSTOCK)
 	}
 }
 
+public void Stock_Check(int itemNUM, String itemNAME )
+{
+	if(itemNUM <= 5 )
+	{
+		System.out.println(itemNAME + " is at a critical stock level");
+	}
+	else
+		if(itemNUM <=10)
+		{
+			System.out.println(itemNAME + " is at a low stock level");
+		}
+	else
+		if(itemNUM > 10)
+	{
+		System.out.println(itemNAME + " is at an acceptable stock level");
+	}
+}
+
+public void Delivery()
+{
+	String file;
+	//FileInputStream FIS = new FileInputStream(file);
+
+}
+
 public void simulate()
 {
 	try
@@ -189,12 +216,17 @@ public void simulate()
 		 System.out.println("Stock levels at the beginning of the day");
 		 System.out.println(localstorageNAME);
 		 System.out.println(localstorageSTOCK);
-		 for(int i = 0; i < localstorageSTOCK.size(); ++i)
+		 for (int time = 1; time <= 8; ++time)
 		 {
-			 int adjustVALUE = GEN.nextInt(21);
-			 currentstock = (Integer)localstorageSTOCK.get(i);
-			 currentstock = currentstock - adjustVALUE;
-			 localstorageSTOCK.set(i, currentstock);
+			System.out.println("HOUR " + time + " OF THE DAY "); 
+			  for(int i = 0; i < localstorageSTOCK.size(); ++i)
+			 	{
+				 int adjustVALUE = GEN.nextInt(6);
+				 currentstock = (Integer)localstorageSTOCK.get(i);
+				 currentstock = currentstock - adjustVALUE;
+				 Stock_Check(currentstock,(String)localstorageNAME.get(i));
+				 localstorageSTOCK.set(i, currentstock);
+			 }
 		 }
 		 System.out.println("Estimated Stock levels at the end of the day");
 		 System.out.println(localstorageNAME);

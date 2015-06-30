@@ -58,24 +58,26 @@ public class GUI extends JFrame
 		JButton Cancelbutton = new JButton("List all products");
 		JButton Updatebutton = new JButton("Update Stock levels");
 		JButton Simbutton = new JButton("Simulate Stock levels");
+		JButton DeliveryButton = new JButton("Calculate Deliveries");
+		DeliveryButton.setActionCommand("Estimate");
 		Simbutton.setActionCommand("Sim");
 		Updatebutton.setActionCommand("Update");
 		ADDbutton.setActionCommand("ADD");
 		Submitbutton.setActionCommand("Submit");
 		Cancelbutton.setActionCommand("List");
+		DeliveryButton.addActionListener(new ButtonClickListener());
 		Simbutton.addActionListener(new ButtonClickListener());
 		Updatebutton.addActionListener(new ButtonClickListener());
 		ADDbutton.addActionListener(new ButtonClickListener());
 		Submitbutton.addActionListener(new ButtonClickListener());
 		Cancelbutton.addActionListener(new ButtonClickListener());
+		ControlPanel.add(DeliveryButton);
 		ControlPanel.add(Simbutton);
 		ControlPanel.add(Updatebutton);
 		ControlPanel.add(ADDbutton);
 		ControlPanel.add(Submitbutton);
 		ControlPanel.add(Cancelbutton);
 		mainFrame.setVisible(true);
-
-
 	}	
 
 	private class ButtonClickListener implements ActionListener
@@ -96,6 +98,7 @@ public class GUI extends JFrame
 					System.out.println(name + " " + stock + " " + cost);
 					accessPRODUCT.Communicate(name,stock,cost);		
 					headerLABEL.setText("New Record Added to System");
+					accessPRODUCT.Read();
 					break;
 					
 				case "Submit" :
@@ -115,6 +118,7 @@ public class GUI extends JFrame
 					choice = Integer.parseInt(JOptionPane.showInputDialog(mainFrame,"Please enter the ID of the product you want to edit stock levels with",null));
 					stock = Integer.parseInt(JOptionPane.showInputDialog(mainFrame,"Please enter the new stock level for this product",null));
 					accessPRODUCT.Update(choice,stock);
+					accessPRODUCT.Read();
 					break;
 					
 				case "Sim" :
@@ -124,6 +128,9 @@ public class GUI extends JFrame
 					accessPRODUCT.simulate();
 					break;
 					
+				case "Estimate" :
+					accessPRODUCT.Delivery();
+					break;
 			}
 		}
 	}
