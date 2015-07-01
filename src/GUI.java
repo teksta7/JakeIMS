@@ -122,6 +122,8 @@ public class GUI extends JFrame
 					break;
 					
 				case "Sim" :
+					headerLABEL.setText("Estimating stock at the end of the day");
+					
 					//TIMER = new Timer(100,this);
 					//TIMER.setInitialDelay(2000);
 					//TIMER.start();
