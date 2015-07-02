@@ -51,6 +51,8 @@ public class GUI extends JFrame
 	
 	public void Display()
 	{
+		JTable tester = new JTable();
+		
 		headerLABEL.setText("Please Select an Option");
 		statusLABEL.setText("Stock Levels OK");
 		JButton ADDbutton = new JButton("Add new record");
@@ -71,13 +73,16 @@ public class GUI extends JFrame
 		ADDbutton.addActionListener(new ButtonClickListener());
 		Submitbutton.addActionListener(new ButtonClickListener());
 		Cancelbutton.addActionListener(new ButtonClickListener());
-		ControlPanel.add(DeliveryButton);
+		ControlPanel.add(tester);
+		//ControlPanel.add(DeliveryButton);
 		ControlPanel.add(Simbutton);
 		ControlPanel.add(Updatebutton);
 		ControlPanel.add(ADDbutton);
 		ControlPanel.add(Submitbutton);
 		ControlPanel.add(Cancelbutton);
 		mainFrame.setVisible(true);
+		
+		tester.setVisible(true);
 	}	
 
 	private class ButtonClickListener implements ActionListener
