@@ -29,7 +29,11 @@ public class product
 	float cost;
 	int RECORDS = 0;
 	static final String JDBC_DRIVER = "com.mysql.jbdc.Driver";
+<<<<<<< HEAD
 	static final String DB_URL = "jdbc:mysql://10.50.20.46:3306/ims";
+=======
+	static final String DB_URL = "jdbc:mysql://10.50.20.28:3306/ims";
+>>>>>>> d8b6bb902cbae32f17a96199eab509ae731b1171
 	static final String username = "imt_user1";
 	static final String password = "user1";
 	
