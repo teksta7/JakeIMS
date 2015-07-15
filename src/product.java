@@ -123,7 +123,7 @@ public void Read()
 		}
 		}
 
-public void Report()
+public void Report(String save_location)
 {
 	try
 	{
@@ -143,7 +143,7 @@ public void Report()
 	{
 		DateFormat Dformat = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
 		Date DATE = new Date();
-		File reportOUT = new File("C:/Users/Jake/report.txt");
+		File reportOUT = new File(save_location);
 		PrintWriter OUTPUT = new PrintWriter(reportOUT, "UTF-8");
 		OUTPUT.println("Product list created on " + Dformat.format(DATE));
 		for(int i = 0; i < RECORDS; ++i)

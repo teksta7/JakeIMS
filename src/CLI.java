@@ -33,7 +33,7 @@ public class CLI {
 			case 3:	
 				System.out.println("Report Saved in /home of this user");
 				cmdP.Read();
-				cmdP.Report();
+				cmdP.Report("C:/");
 				break;
 				
 			case 4:

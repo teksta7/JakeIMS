@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -142,14 +143,15 @@ public class GUI extends JFrame
 		  public void actionPerformed(ActionEvent e)
 		  {
 			//Create a file chooser
-			 final JFileChooser reportLOC = new JFileChooser();
+			 JFileChooser reportLOC = new JFileChooser();
 			 
 			 reportLOC.setDialogTitle("Choose a location for the report to be saved in");
 			 //In response to a button click:
 			 int location =  reportLOC.showOpenDialog(mainFrame);
-			// headerLABEL.setText("Report Generated");
-				//accessPRODUCT.Read();
-				//accessPRODUCT.Report();
+			 File saved = reportLOC.getSelectedFile();
+			 System.out.println("Save to " + saved.getAbsolutePath());
+			 accessPRODUCT.Read();
+			 accessPRODUCT.Report(saved.getAbsolutePath());
 		  }
 		 
 	  });
@@ -243,7 +245,7 @@ public class GUI extends JFrame
 				case "Submit" :
 					headerLABEL.setText("Report Generated");
 					accessPRODUCT.Read();
-					accessPRODUCT.Report();
+					//accessPRODUCT.Report();
 				break;
 				
 				case "List" :
