@@ -1,6 +1,10 @@
 import java.sql.DriverManager;
 
+import javax.swing.JTable;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.jdbc.ResultSetMetaData;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Vector;
 import java.io.DataOutputStream;
 
 public class product 
@@ -29,7 +35,7 @@ public class product
 	float cost;
 	int RECORDS = 0;
 	static final String JDBC_DRIVER = "com.mysql.jbdc.Driver";
-	static final String DB_URL = "jdbc:mysql://10.50.20.28:3306/ims";
+	static final String DB_URL = "jdbc:mysql://10.50.20.23:3306/ims";
 	static final String username = "imt_user1";
 	static final String password = "user1";
 	
@@ -59,7 +65,35 @@ public class product
 	 }
 	
 	}
-	
+
+public JTable PopulateTable() throws Exception{
+	System.out.print("Updating Table");
+    JTable t1=new JTable();
+    DefaultTableModel dm=new DefaultTableModel();
+    CONN = DriverManager.getConnection(DB_URL,username,password);
+    Statement st=CONN.createStatement();   
+    ResultSet rs=st.executeQuery("select * from PRODUCT");
+    ResultSetMetaData rsmd=(ResultSetMetaData) rs.getMetaData();
+    //Coding to get columns-
+    int cols=rsmd.getColumnCount();
+    String c[]=new String[cols];
+    for(int i=0;i<cols;i++){
+        c[i]=rsmd.getColumnName(i+1);
+        dm.addColumn(c[i]);
+    }
+    //get data from rows
+    Object row[]=new Object[cols];
+    while(rs.next()){
+         for(int i=0;i<cols;i++){
+                row[i]=rs.getString(i+1);
+            }
+        dm.addRow(row);
+    }
+    t1.setModel(dm);
+    CONN.close();
+    return t1;
+}
+
 public void Read()
 	{
 		try
