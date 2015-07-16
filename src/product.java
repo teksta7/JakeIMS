@@ -35,7 +35,7 @@ public class product
 	float cost;
 	int RECORDS = 0;
 	static final String JDBC_DRIVER = "com.mysql.jbdc.Driver";
-	static final String DB_URL = "jdbc:mysql://10.50.20.23:3306/ims";
+	static final String DB_URL = "jdbc:mysql://10.50.20.31:3306/ims";
 	static final String username = "imt_user1";
 	static final String password = "user1";
 	
@@ -67,6 +67,7 @@ public class product
 	}
 
 public JTable PopulateTable() throws Exception{
+	
 	System.out.print("Updating Table");
     JTable t1=new JTable();
     DefaultTableModel dm=new DefaultTableModel();

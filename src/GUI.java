@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Menu;
@@ -52,7 +53,7 @@ public class GUI extends JFrame
 			}
 		   scrollPane = new JScrollPane(table);
 		   
-		
+		menu.setPreferredSize(new Dimension(30,30));
 		
 		// File Menu, F - Mnemonic
 	    JMenu fileMenu = new JMenu("File");
@@ -115,7 +116,9 @@ public class GUI extends JFrame
 			 stock = Integer.parseInt(JOptionPane.showInputDialog(mainFrame,"Please enter the new stock level for this product",null));
 			 accessPRODUCT.Update(choice,stock);
 			 accessPRODUCT.Read();
+			 
 				try {
+					table.removeAll();
 					table = accessPRODUCT.PopulateTable();
 					
 				} catch (Exception e1) {
@@ -210,11 +213,11 @@ public class GUI extends JFrame
 		Cancelbutton.addActionListener(new ButtonClickListener());
 		//ControlPanel.add(tester);
 		//ControlPanel.add(DeliveryButton);
-		ControlPanel.add(Simbutton);
-		ControlPanel.add(Updatebutton);
-		ControlPanel.add(ADDbutton);
-		ControlPanel.add(Submitbutton);
-		ControlPanel.add(Cancelbutton);
+		//ControlPanel.add(Simbutton);
+		//ControlPanel.add(Updatebutton);
+		//ControlPanel.add(ADDbutton);
+		//ControlPanel.add(Submitbutton);
+		//ControlPanel.add(Cancelbutton);
 		//ControlPanel.add(table);
 		ControlPanel.add(scrollPane, BorderLayout.CENTER);
 		
