@@ -15,96 +15,109 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
+/**
+ * @author Jake
+ *	Graphical user interface class 
+ *  Access all functions in the IMS through a graphical window using swing
+ *	
+ */
 public class GUI extends JFrame 
 {	
+	//Create new instance of product, create a new JTable and default table model
 	product accessPRODUCT = new product();
-	
-	//private ResultSet tabledata = null;
 	DefaultTableModel tm;
 	JTable table = null;
-
-	JScrollPane scrollPane;
 	
+	//Other GUI elements including JFrame, JPanel and JLabels
+	JScrollPane scrollPane;
 	private JFrame mainFrame;
 	private JLabel headerLABEL;
 	private JLabel statusLABEL;
 	private JPanel ControlPanel;
+	
+	//Variables used when entering product information
 	String name;
 	int stock;
 	int choice;
 	float cost;
-	Timer TIMER;
-	JMenuBar menu = new JMenuBar();
 	
+	//New menu bar created using JMenuBar
+	JMenuBar menu = new JMenuBar();
 	
 	public GUI()
 	{
 		prepareGUI();
 	}
 	
+	/**
+	 * @author Jake
+	 *	Prepare GUI - sets up the GUI components so that they can be used and are visible
+	 */
 	private void prepareGUI()
 	{
-		   	try {
+		//Get the product class to update the table when the GUI window loads
+		   	try 
+		   	{
 			table = accessPRODUCT.PopulateTable();
-			} catch (Exception e) {
-			// TODO Auto-generated catch block
+			}
+		   	catch (Exception e) 
+		   	{
 			e.printStackTrace();
 			}
 		   scrollPane = new JScrollPane(table);
-		   
-		menu.setPreferredSize(new Dimension(30,30));
-		
-		// File Menu, F - Mnemonic
+		   		
+		//Setup menu items and add them to the menu categories
+		//then add the categories to the menu-bar 
 	    JMenu fileMenu = new JMenu("File");
 	    menu.add(fileMenu);
 	    
-	    // File->New, N - Mnemonic
 	    JMenuItem reportmenuItem = new JMenuItem("Save Stock Report");
 	    fileMenu.add(reportmenuItem);
 	    
-	    // File Menu, F - Mnemonic
 	    JMenu stockmenu = new JMenu("Stock");
 	    menu.add(stockmenu);
 
-	    // File->New, N - Mnemonic
-	    JMenuItem addstockItem = new JMenuItem("Add stock");
-	    addstockItem.setActionCommand("ADD");
-	    stockmenu.add(addstockItem);
+	  	JMenuItem addstockItem = new JMenuItem("Add stock");
+	  	stockmenu.add(addstockItem);
 	    
-	 // File->New, N - Mnemonic
 	    JMenuItem updatestockItem = new JMenuItem("Update stock");
 	    stockmenu.add(updatestockItem);
 	    
-	 // File->New, N - Mnemonic
 	    JMenuItem simstockItem = new JMenuItem("Simulate stock");
 	    stockmenu.add(simstockItem);
 	    
+	  /**
+	  * @author Jake
+	  *	If add stock is selected it will bring up inputDialog boxes to enter new product info
+	  * This is then passed on to the product class which will add it the system	
+	  */
 	  addstockItem.addActionListener(new ActionListener() 
 	  {
 		 @Override
 		  public void actionPerformed(ActionEvent e)
 		  {
-			 headerLABEL.setText("Please Enter the new product below");
-				
-				//
-				name = JOptionPane.showInputDialog(mainFrame,"Please enter the name of product",null);
-				stock = Integer.parseInt(JOptionPane.showInputDialog(mainFrame, "Please enter the quantity of stock for this product", null));
-				cost = Float.parseFloat(JOptionPane.showInputDialog(mainFrame, "Please enter the cost of the product", null));
-				System.out.println(name + " " + stock + " " + cost);
-				accessPRODUCT.Communicate(name,stock,cost);		
-				headerLABEL.setText("New Record Added to System");
-				accessPRODUCT.Read();
-				try {
-					//tm.fireTableDataChanged();
-					} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-					}
+			headerLABEL.setText("Please Enter the new product below");
+			name = JOptionPane.showInputDialog(mainFrame,"Please enter the name of product",null);
+			stock = Integer.parseInt(JOptionPane.showInputDialog(mainFrame, "Please enter the quantity of stock for this product", null));
+			cost = Float.parseFloat(JOptionPane.showInputDialog(mainFrame, "Please enter the cost of the product", null));
+			System.out.println(name + " " + stock + " " + cost);
+			
+			//Call function to add product to system
+			accessPRODUCT.Communicate(name,stock,cost);		
+			headerLABEL.setText("New Record Added to System");
+			
+			//read in latest changes to database and notify user of changes
+			accessPRODUCT.Read();
+			JOptionPane.showMessageDialog(mainFrame, "Product has been added to the database");
 		  }
 		 
 	  });
 	  
+	   /**
+	   *@author Jake
+	   * If update stock is selected it will bring up inputDialog boxes to edit product info
+	   * This is then passed on to the product class which will add it the system	
+	   */
 	  updatestockItem.addActionListener(new ActionListener() 
 	  {
 		 @Override
@@ -112,12 +125,17 @@ public class GUI extends JFrame
 		  {
 			 headerLABEL.setText("Please Enter the new product below");
 			 headerLABEL.setText("Updating Record");
+			 
+			 //get input from dialog boxes and parse string as integer
 			 choice = Integer.parseInt(JOptionPane.showInputDialog(mainFrame,"Please enter the ID of the product you want to edit stock levels with",null));
 			 stock = Integer.parseInt(JOptionPane.showInputDialog(mainFrame,"Please enter the new stock level for this product",null));
 			 accessPRODUCT.Update(choice,stock);
+			 JOptionPane.showMessageDialog(mainFrame, "Product details have been updated");
 			 accessPRODUCT.Read();
+
 			 
 				try {
+					//Attempt to refresh table
 					table.removeAll();
 					table = accessPRODUCT.PopulateTable();
 					
@@ -125,10 +143,16 @@ public class GUI extends JFrame
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 					}
+				
+
 		  }
 		 
 	  });
 	  
+	  /**
+		  * @author Jake
+	  *	If simulate stock is selected it call the simulate function and decrease a copy o	
+	  */
 	  simstockItem.addActionListener(new ActionListener() 
 	  {
 		 @Override
